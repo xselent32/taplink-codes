@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div class="carousel_3d" id="wrapper">
+	<figure>
+			<!-- В src="..." вставляем ссылки на изображения для слайдера -->
+	    	<img src="img-1.png" alt="">
+	    	<img src="img-2.png" alt="">
+			<img src="img-3.png" alt="">
+			<img src="img-4.png" alt="">
+			<img src="img-5.png" alt="">
+			<img src="img-6.png" alt="">
+	    	<img src="img-7.png" alt="">
+			<img src="img-8.png" alt="">
+	</figure>
+</div>
+
+
+<script>
+	var
+	carousel_3d = document.querySelector('.carousel_3d'),
+	figure = carousel_3d.querySelector('figure'),
+	nav = carousel_3d.querySelector('nav'),
+	numImages = figure.childElementCount,
+	theta =  2 * Math.PI / numImages,
+	currImage = 0;
+	
+
+function ontouch(el, callback){
+    var touchsurface = el,
+    dir,
+    swipeType,
+    startX,
+    startY,
+    distX,
+    distY,
+    threshold = 150,
+    restraint = 100, 
+    allowedTime = 500,
+    elapsedTime,
+    startTime,
+    handletouch = callback || function(evt, dir, phase, swipetype, distance){}
+ 
+    touchsurface.addEventListener('touchstart', function(e){
+        var touchobj = e.changedTouches[0]
+        dir = 'none'
+        swipeType = 'none'
+        dist = 0
+        startX = touchobj.pageX
+        startY = touchobj.pageY
+        startTime = new Date().getTime()
+        handletouch(e, 'none', 'start', swipeType, 0)
+        e.preventDefault()
+ 
+    }, false)
+ 
+    touchsurface.addEventListener('touchmove', function(e){
+        var touchobj = e.changedTouches[0]
+        distX = touchobj.pageX - startX
+        distY = touchobj.pageY - startY 
+        if (Math.abs(distX) > Math.abs(distY)){
+            dir = (distX < 0)? 'left' : 'right'
+            handletouch(e, dir, 'move', swipeType, distX)
+        }
+        else{ 
+            dir = (distY < 0)? 'up' : 'down'
+            handletouch(e, dir, 'move', swipeType, distY)
+        }
+        e.preventDefault()
+    }, false)
+ 
+    touchsurface.addEventListener('touchend', function(e){
+        var touchobj = e.changedTouches[0]
+        elapsedTime = new Date().getTime() - startTime
+        if (elapsedTime <= allowedTime){
+            if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint){
+                swipeType = dir
+            }
+            else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint){
+                swipeType = dir
+            }
+        }
+        handletouch(e, dir, 'end', swipeType, (dir =='left' || dir =='right')? distX : distY)
+        e.preventDefault()
+    }, false)
+}
+function DoSomething(dir, distance) {
+  var momentum = 100;
+  switch (dir){
+    case 'left':
+    case 'right':
+      currImage+= Math.round(distance/momentum);
+      break;
+  }
+    figure.style.transform = `rotateY(${currImage * -theta}rad)`;
+}
+document.getElementById('wrapper').ondragstart = function() { return false; };
+window.addEventListener('load', function() {
+  var dir, phase, el = document.getElementById('wrapper'),
+    position = {
+      X: 0,
+      Y: 0
+    };
+
+  el.onmousedown = function(down) {
+    position.X = down.clientX;
+    position.Y = down.clientY;
+  };
+
+  el.onmouseup = function(up) {
+    distX = up.clientX - position.X;
+    distY = position.Y - up.clientY;
+    if (Math.abs(distX) > Math.abs(distY)) {
+      dir = (distX < 0) ? 'left' : 'right';
+      distance = distX;
+    } else {
+      dir = (distY < 0) ? 'down' : 'up';
+      distance = distY;
+    }
+    dir = (distance == 0) ? 'none' : dir;
+    DoSomething(dir, distance);
+  }; 
+  ontouch(el, function(evt, dir, phase, swipetype, distance){
+ 
+ if ( phase == 'end' && (dir =='left' || dir == 'right') )
+   DoSomething(dir, distance);
+})
+}, false)
+
+</script>
+	
+</body>
+</html>
+
+

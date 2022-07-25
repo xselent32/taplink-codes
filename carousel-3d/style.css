@@ -1,0 +1,58 @@
+body {
+	background-color: #121212;
+}
+
+.carousel_3d {
+  padding: 20px;
+  perspective: 500px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.carousel_3d > * {
+  flex: 0 0 auto;
+}
+.carousel_3d figure {
+  cursor: -webkit-grab;
+  cursor: grab;
+  margin: 0;
+  max-width: 300px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+  transform-origin: 50% 50% -482.8427124746px;
+}
+.carousel_3d figure img {
+  max-width: 100%;
+  box-sizing: border-box;
+  /*padding: 0 10px;*/
+  opacity: 0.9;
+  border-radius: 30px;
+}
+.carousel_3d figure img:not(:first-of-type) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 50% 50% -482.8427124746px;
+}
+.carousel_3d figure img:nth-child(2) {
+  transform: rotateY(0.7853981634rad);
+}
+.carousel_3d figure img:nth-child(3) {
+  transform: rotateY(1.5707963268rad);
+}
+.carousel_3d figure img:nth-child(4) {
+  transform: rotateY(2.3561944902rad);
+}
+.carousel_3d figure img:nth-child(5) {
+  transform: rotateY(3.1415926536rad);
+}
+.carousel_3d figure img:nth-child(6) {
+  transform: rotateY(3.926990817rad);
+}
+.carousel_3d figure img:nth-child(7) {
+  transform: rotateY(4.7123889804rad);
+}
+.carousel_3d figure img:nth-child(8) {
+  transform: rotateY(5.4977871438rad);
+}
