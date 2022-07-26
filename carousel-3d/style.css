@@ -1,6 +1,14 @@
+
+html, body { 
+    position: relative !important;
+    max-width: 100% !important; 
+    overflow-x: hidden !important; 
+}
+
 body {
 	background-color: #121212;
 }
+
 
 .carousel_3d {
   padding: 20px;
